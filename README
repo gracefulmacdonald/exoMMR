@@ -1,7 +1,9 @@
-exoMMR is ..... something. yup.
+exoMMR is a package designed to find, confirm, and characterize mean motion resonances in exoplanetary systems.
 
 FEATURES:
-
+Find: calculates two bodies' proximity to resonance; returns coefficients of two- and three-body resonant angles based on orbital periods 
+Confirm: runs suites of N-body (rebound) simulations; analyzes resonant angles from each simulation and returns center and amplitude; calculates what percentage of simulations have which angle librating
+Characterize: summarizes the centers and amplitudes of any librating angles; characterizes resonant chains by how many simulations have each planet dynamically decoupled; constrains parameters (e.g., mass, eccentricity) based on resonant angle libration; includes various helpful plotting functions
 
 QUICK INSTALLATION:
 pip install exoMMR 
@@ -12,6 +14,7 @@ TODO
 - Get user-defined units working
 - Include periodogram analysis
 - Include separatrix analysis
+- Implement chain formation exploration
 - Implement neural net
 - Include SS expansions
 
@@ -34,4 +37,4 @@ exoMMR is distributed in the hope that it will be useful, but WITHOUT ANY WARRAN
 You should have received a copy of the GNU General Public License along with exoMMR. If not, see http://www.gnu.org/licenses/.
 
 CHANGELOG
-- 09/04/2022: exoMMR launches on github and PyPA. I guess not a change, but seemed good to start the log somewhere.
+- 09/14/2022: exoMMR launches on github and becomes pip installable. I guess not a change, but seemed good to start the log somewhere.
