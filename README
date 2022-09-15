@@ -1,7 +1,11 @@
-exoMMR is ..... something. yup.
+exoMMR is a package designed to find, confirm, and characterize mean motion resonances in exoplanetary systems.
 
 FEATURES:
-
+Find: calculates two bodies' proximity to resonance; returns coefficients of two- and three-body resonant angles based on orbital periods 
+Confirm: runs suites of N-body (rebound) simulations; analyzes resonant angles from each simulation and returns center and amplitude; calculates 
+what percentage of simulations have which angle librating
+Characterize: summarizes the centers and amplitudes of any librating angles; characterizes resonant chains by how many simulations have each planet 
+dynamically decoupled; constrains parameters (e.g., mass, eccentricity) based on resonant angle libration; includes various helpful plotting functions
 
 QUICK INSTALLATION:
 pip install exoMMR 
@@ -12,26 +16,31 @@ TODO
 - Get user-defined units working
 - Include periodogram analysis
 - Include separatrix analysis
+- Implement chain formation exploration
 - Implement neural net
 - Include SS expansions
 
 PAPERS:
-- MacDonald, Feil, Quinn, and Rice 2022 (The Astronomical Journal, Volume 163, Issue 4, id.162, 12 pp.) develops the framework for exoMMR and demonstrates the ability to constrain resonances with N-body simulations
+- MacDonald, Feil, Quinn, and Rice 2022 (The Astronomical Journal, Volume 163, Issue 4, id.162, 12 pp.) develops the framework for exoMMR and 
+demonstrates the ability to constrain resonances with N-body simulations
 
 - MacDonald and Quinn 2023 (submitted to The Astronomical Journal) tests exoMMR on five additional systems
 
 - MacDonald, Polania, D'angiolillo, and Fernandez (in prep.) describes the code structure and demonstrates the main features
 
 ACKNOWLEDGEMENTS:
-If you use this code or parts of this code for results presented in a scientific publication, we would greatly appreciate a citation. please cite exoMMR, MacDonald et al. 2023
+If you use this code or parts of this code for results presented in a scientific publication, we would greatly appreciate a citation. please 
+cite exoMMR, MacDonald et al. 2023
 
 
 LICENSE:
-exoMMR is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License or any later version.
+exoMMR is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free 
+Software Foundation, either version 3 of the License or any later version.
 
-exoMMR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+exoMMR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with exoMMR. If not, see http://www.gnu.org/licenses/.
 
 CHANGELOG
-- 09/04/2022: exoMMR launches on github and PyPA. I guess not a change, but seemed good to start the log somewhere.
+- 09/14/2022: exoMMR launches on github and becomes pip installable. I guess not a change, but seemed good to start the log somewhere.
