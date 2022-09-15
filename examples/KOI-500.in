@@ -1,0 +1,41 @@
+# System name
+KOI-500
+# Number of planets
+4
+# Stellar mass
+0.730
+# Units
+days	Msun	AU
+# Planet masses
+6.7512752325726543	4.9205185377974537	5.993997973749664	5.033997973749664	
+# Mass error
+0.6933825697717963	0.4938555613392361	0.576799392124899	0.423799392124899	
+# Periods
+3.072146607	4.645382149	7.053527145	9.521644639	
+# Period error
+3.51e-06	6.14e-06	5.91e-06	8.95e-06	
+# Inc
+89.86	89.5	89.57	89.96	
+# Inc error
+0.2	0.2	0.2	0.2	
+# Ecc
+0.0	0.0	0.0	0.0	
+# Ecc error
+0.0	0.0	0.0	0.0	
+# t0
+134.030017	134.58938999999998	176.474146	177.484839	
+# t0 error #unused
+0.0006129999999999999	0.000941	0.00107	0.0006490000000000001	0.000726	
+# Number of simulations
+500
+# Integration time
+1000000.0
+# Time step percentage
+0.05
+# Flag for saving bin file
+0
+# Rarely changed parameters:
+# Integrator
+whfast
+# Sim-archive step
+10000.0

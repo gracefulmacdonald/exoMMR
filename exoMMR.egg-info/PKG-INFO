@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: exoMMR
+Version: 1.1.1
+Summary: A package focused on confirming and characterizing mean motion resonance in exoplanetary systems
+Home-page: https://github.com/shuds13/pyexample
+Author: Mariah MacDonald
+Author-email: mariah.g.macdonald@gmail.com
+License: GPL
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Programming Language :: Python :: 3

@@ -1,0 +1,13 @@
+README
+setup.py
+exoMMR/__init__.py
+exoMMR/analysis.py
+exoMMR/myplot.py
+exoMMR/plotRes.py
+exoMMR/sim.py
+exoMMR/tools.py
+exoMMR.egg-info/PKG-INFO
+exoMMR.egg-info/SOURCES.txt
+exoMMR.egg-info/dependency_links.txt
+exoMMR.egg-info/requires.txt
+exoMMR.egg-info/top_level.txt

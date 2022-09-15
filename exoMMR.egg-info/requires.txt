@@ -1,0 +1,7 @@
+astropy
+matplotlib
+numpy
+pandas
+progressbar
+rebound
+scipy
