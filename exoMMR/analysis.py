@@ -54,7 +54,6 @@ def make_sim_file(dir, sim_par_str, sim_par, pl_data):
         fs = open(dir+'/../slurm.in','w')
         fs.write('#SBATCH --ntasks=1\n')
         fs.write('#SBATCH --nodes=1\n')
-        fs.write('#SBATCH --constraint="skylake|broadwell"\n')
         fs.write('#SBATCH --partition=normal\n')
         fs.write('#SBATCH --time=4:00:00\n')
         fs.close()
@@ -72,8 +71,8 @@ def make_sim_file(dir, sim_par_str, sim_par, pl_data):
     	inc = drawnormal(pl_data[4,:],pl_data[5,:])
     	ecc = drawnormal(pl_data[6,:],pl_data[7,:])
     	ecc = [0.0 if x < 0 else x for x in ecc]
-    	Om = list(uniform(0, 2*np.pi,numpl))
-    	mLon = list(np.mod(-2*np.pi+pl_data[8,:]/p,2*np.pi))
+    	Om = list(uniform(0, 2.0*np.pi,numpl))
+    	mLon = list(np.mod(-2.0*np.pi+pl_data[8,:]/p,2.0*np.pi))
     	data[ii,:] = np.array([ii]+m+p+inc+ecc+Om+mLon)
 
     col_heads=['ind',*(f'm{ii}' for ii in range(1, (numpl+1))),*(f'p{ii}' for ii in range(1, (numpl+1))),*(f'inc{ii}' for ii in range(1, (numpl+1))),*(f'ecc{ii}' for ii in range(1, (numpl+1))),*(f'Om{ii}' for ii in range(1, (numpl+1))),*(f'mLon{ii}' for ii in range(1, (numpl+1)))]
@@ -149,31 +148,25 @@ def run_sim(num,sysName,wd):
 	f3.close()
 
 	os.system('echo %i' % num)
-	f=open('%s%s/submit%i.sh' %(sysDir,jobDir,num),'w')
+	f=open('%s%s/submit.sh' %(sysDir,jobDir),'w')
 	f.write('#!/bin/bash \n')
 	f.write('\n')
 	f.write('#SBATCH --chdir=%s/ \n' %wd)
-	#f.write('#SBATCH --chdir=../../ \n' )
-	f.write('#SBATCH --job-name=res%i \n' %num)
-	f.write('#SBATCH --output=%s%s/job.%i.out  \n' %(sysDir,jobDir,num))
+	f.write('#SBATCH --job-name=res%a \n')
+	f.write(f'#SBATCH --output={sysDir}{jobDir}/job.%a.out  \n')
+	f.write('#SBATCH --array=0-%i \n' %(num))
 	for l in lines:
 		f.write(l)
-	#f.write('#SBATCH --ntasks=1   \n')
-	#f.write('#SBATCH --nodes=1  \n')
-	#f.write('#SBATCH --constraint="skylake|broadwell"  \n')
-	#f.write('#SBATCH --partition=normal  \n')
-	#f.write('#SBATCH --time=4:00:00  \n')
 	f.write('\n')
 	f.write('module load python \n')
 	f.write('\n')
 	f.write('echo \"Starting on \"`date` \n')
-	#f.write('python sim.py %i %s \n' %(num,sysName))
-	f.write('python -c \"import exoMMR; exoMMR.sim(%i,\'%s\')\" \n' %(num,sysName))
+	f.write('python -c \"import exoMMR; exoMMR.sim($SLURM_ARRAY_TASK_ID,\'%s\')\" \n' %(sysName))
 
 	f.write('echo \"Finished on \"`date` \n')
 	f.close()
 
-	cmdstr = 'sbatch %s%s/submit%i.sh' %(sysDir,jobDir,num)
+	cmdstr = 'sbatch %s%s/submit.sh' %(sysDir,jobDir)
 	os.system(cmdstr)
 
 def combine_res(sysName):
@@ -324,17 +317,12 @@ def make_input(datfile,KOI,col_name='KOI'):
 	import pandas as pd
 	from .tools import mr
 
-	#datfile = './data/koi_err.csv'
-	#datfile = './data/k2_err.csv'
-	#datfile = './data/toi_err.csv'
 	dat = pd.read_csv(datfile,sep=',')
 	nrows = dat.shape[0]
 	rows = np.array([int(x) for x in np.linspace(0,nrows,nrows)])
 	all_KOI = np.array(dat[col_name].values.tolist())
 	myrows = rows[(all_KOI==KOI)]
 
-	#sysName = f'KOI-{KOI}'
-	#sysName = f'K2-{KOI}'
 	sysName = f'{col_name}-{KOI}'
 	numpl = len(myrows)
 
@@ -429,12 +417,14 @@ def make_rescen(sysName,binname,incb=False):
 		print(f'file {binname} does not exist')
 		return
 	sim = sm.copy()
-	sim_time=sim.t #from kwargs, 0 if not given
+	sim_time=sim.t
 
 	Nout=2000
 	ps = sim.particles
 	numpl = len(ps)-1
-	maxe(ps,numpl)
+	check = maxe(ps,numpl)
+	if check == 1:
+		return
 	l = np.zeros([numpl,Nout]); po = np.zeros([numpl, Nout]); p = np.zeros([numpl, Nout]); e = np.zeros([numpl, Nout])
 	int_time = np.linspace(0,6000,Nout)
 
@@ -446,7 +436,9 @@ def make_rescen(sysName,binname,incb=False):
 			p[pl,ii] = sim.particles[pl+1].P
 			e[pl,ii] = sim.particles[pl+1].e
 	ps = sim.particles
-	maxe(ps,numpl)
+	check = maxe(ps,numpl)
+	if check ==1:
+		return
 
 	allper = np.array([ps[pl+1].P for pl in range(numpl)])
 	res_ang = np.zeros([(numpl*2-3),Nout])
@@ -460,14 +452,32 @@ def make_rescen(sysName,binname,incb=False):
 	for kk in range(numpl-1):
 		phi = res[kk,0]*l[(kk+1),:] + res[kk,1]*l[kk,:] + res[kk,2]*po[kk,:]
 		phib = res[kk,0]*l[(kk+1),:] + res[kk,1]*l[kk,:] + res[kk,2]*po[(kk+1),:]
-		res_ang[kk,:] = wrap(phi)
-		if incb: phi_bs[kk,:] = wrap(phib)
+		aa = wrap180(phi)
+		bb = wrap(phi)
+		if 2.0*np.std(aa) < 2.0*np.std(bb):
+			res_ang[kk,:] = aa
+		else:
+			res_ang[kk,:] = bb
+		if incb:
+			phi_bs[kk,:] = wrap180(phib)
+			aa = wrap180(phib)
+			bb = wrap(phib)
+			if 2.0*np.std(aa) < 2.0*np.std(bb):
+				phi_bs[kk,:] = aa
+			else:
+				phi_bs[kk,:] = bb
+
 		c_name = twbr_names[kk]+'_c'
 		a_name = twbr_names[kk]+'_a'
 		ang_names = ang_names + [c_name,a_name]
 	for kk in range(numpl-2):
 		lap = res[kk+numpl-1,0]*l[(kk+2),:] + res[kk+numpl-1,1]*l[(kk+1),:] + res[kk+numpl-1,2]*l[kk,:]
-		res_ang[(kk+numpl-1),:] = wrap180(lap)
+		aa = wrap(lap)
+		bb = wrap180(lap)
+		if 2.0*np.std(aa) < 2.0*np.std(bb):
+		  res_ang[(kk+numpl-1),:] = aa
+		else:
+		  res_ang[(kk+numpl-1),:] = bb
 		c_name = thbr_names[kk]+'_c'
 		a_name = thbr_names[kk]+'_a'
 		ang_names = ang_names + [c_name,a_name]
@@ -489,14 +499,16 @@ def make_rescen(sysName,binname,incb=False):
 	for ii in range(len(res_ang)):
 		this_ang = res_ang[ii,:]
 		center = np.median(this_ang)
-		amp = 2*np.std(this_ang)
+		amp = 2.0*np.std(this_ang)
+		if amp == 0: amp = 200.0
 		f.write('\t'+str(center)+'\t'+str(amp))
 
 	if incb:
 		for ii in range(numpl-1):
 			this_ang = phi_bs[ii,:]
 			center = np.median(this_ang)
-			amp = 2*np.std(this_ang)
+			amp = 2.0*np.std(this_ang)
+			if amp==0: amp = 200.0
 			f.write('\t'+str(center)+'\t'+str(amp))
 	f.close()
 

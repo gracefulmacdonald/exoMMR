@@ -2,9 +2,9 @@ from setuptools import setup
 
 setup(
     name='exoMMR',
-    version='1.1.1',    
+    version='1.1.2',
     description='A package focused on confirming and characterizing mean motion resonance in exoplanetary systems',
-    url='https://github.com/shuds13/pyexample',
+    url='https://github.com/gracefulmacdonald/exoMMR',
     author='Mariah MacDonald',
     author_email='mariah.g.macdonald@gmail.com',
     license='GPL',

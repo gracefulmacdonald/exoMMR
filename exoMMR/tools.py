@@ -141,8 +141,10 @@ def wrap(vals):
     import numpy as np
 
     for ii in range(len(vals)):
-      while vals[ii] < 0.0:     vals[ii] += 2.0*np.pi
-      while vals[ii] > 2.0*np.pi: vals[ii] -=2.0*np.pi
+      while vals[ii] < 0.0:
+      	vals[ii] += 2.0*np.pi
+      while vals[ii] > 2.0*np.pi:
+      	vals[ii] -=2.0*np.pi
     return vals*180.0/np.pi
 
 def wrap180(vals):
@@ -152,8 +154,10 @@ def wrap180(vals):
     import numpy as np
 
     for ii in range(len(vals)):
-      while vals[ii] < -1.0*np.pi:     vals[ii] += 2.0*np.pi
-      while vals[ii] > np.pi: vals[ii] -=2.0*np.pi
+      while vals[ii] < -1.0*np.pi:
+      	vals[ii] += 2.0*np.pi
+      while vals[ii] > np.pi:
+      	vals[ii] -=2.0*np.pi
     return vals*180.0/np.pi
 
 def drawnormal(mean, sigma):
@@ -222,7 +226,7 @@ def maxe(ps,numpl):
 	maxecc = max(np.array([ps[pl+1].e for pl in range(numpl)]))
 	if maxecc > 1.0 :
 		print('Warning: Planet ejected in integration')
-		exit()
+		return 1
 
 def stats(x):
 	# Function: calculates and returns statistics of an array
