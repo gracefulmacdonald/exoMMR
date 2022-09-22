@@ -43,4 +43,7 @@ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more de
 You should have received a copy of the GNU General Public License along with exoMMR. If not, see http://www.gnu.org/licenses/.
 
 CHANGELOG
+- 09/22/2022: updated some exoMMR structure for better flow and easier use; updated run_sim() to create SLURM job_arrays instead of individual 
+jobs; updated make_sim_file() and run_sim() to allow optional/changing inputs for SLURM; updated tools.maxe() so that it would return an error 
+code, not just exit() python
 - 09/14/2022: exoMMR launches on github and becomes pip installable. I guess not a change, but seemed good to start the log somewhere.
