@@ -1,0 +1,22 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: MacDonald
+    given-names: Mariah
+    orcid: https://orcid.org/0000-0003-2372-1364
+  - family-names: Quinn
+    given-names: Tyler
+    orcid: https://orcid.org/0000-0002-8974-8095
+  - family-names: Polania Vivas
+    given-names: Michael
+    orcid: https://orcid.org/0009-0001-2321-7865
+  - family-names: D'Angiolillo
+    given-names: Skylar
+    orcid: https://orcid.org/0000-0001-5592-6220
+  - family-names: Fernandez
+    given-names: Ashley
+    orcid: https://orcid.org/0009-0003-6956-4066
+title: exoMMR: Find, confirm, and characterize mean motion resonances in exoplanetary systems
+version: v1.1.3
+date-released: 2022-09-22
+            
